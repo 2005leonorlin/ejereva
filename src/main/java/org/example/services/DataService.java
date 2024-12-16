@@ -51,7 +51,7 @@ public class DataService {
         try {
             em.getTransaction().begin();
 
-            // Consulta ajustada para obtener comentarios con una valoración igual o superior al valor mínimo
+
             TypedQuery<Comentario> query = em.createQuery(
                     "SELECT c FROM Comentario c WHERE c.valoracion >= :valorMinimo ORDER BY c.valoracion DESC",
                     Comentario.class
