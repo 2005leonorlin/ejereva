@@ -5,29 +5,25 @@ import lombok.Data;
 import javax.persistence.*;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Data
 @Entity
 public class Comentario implements Serializable {
     private static final long serialVersionUID = 2L;
+
     @Id
     @GeneratedValue
     private Long id;
-    private String contenido;
-    private Integer valoracion;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comentario> comentarios = new ArrayList<>();
-    public void addComentario(Comentario c) {
-        comentarios.add(c);
-        c.getComentarios().add(this);
-    }
-    public Comentario(String contenido, Integer valoracion) {
-        this.contenido = contenido;
-        this.valoracion = valoracion;
-    }
+    private String contenido;
+
+    @Column(nullable = false)
+    private Integer valoracion; // Valoración entre 0 y 10
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario; // Relación con Usuario
 
     @Override
     public String toString() {
@@ -35,13 +31,9 @@ public class Comentario implements Serializable {
                 "id=" + id +
                 ", contenido='" + contenido + '\'' +
                 ", valoracion=" + valoracion +
-                ", comentarios=" + comentarios +
+                ", usuario=" + (usuario != null ? usuario.getCorreo() : "null") +
                 '}';
     }
 }
-
-
-
-
 
 
